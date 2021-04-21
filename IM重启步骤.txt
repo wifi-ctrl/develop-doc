@@ -1,0 +1,18 @@
+- 重启jhbaseproxy；
+
+  cat /root/jhbaseproxy/src/main/resources/application.properties #配置文件
+  cd /root/jhbaseproxy
+  ./restart.sh
+
+- 重启node_center;
+  cd /root/node_center
+  vim deploy_cfg.ini # LOCAL_IP = 测试环境127.0.0.1，生产环境改为外网IP
+  ./start.sh
+- 重启im-erlang
+  cd /root/im-erlang
+  vim deploy_cfg.ini
+  make clean && make deps && make proto && make
+  ./start_all.sh #启动服务
+  cd  ~/im-erlang/im_svr;
+  ./term.sh;    #运行Erlang/OTP
+  :im_stats_tools.print_nodes #打印nodes状态为on表示启动成功
